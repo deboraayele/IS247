@@ -31,6 +31,6 @@ public class Reservation {
         SimpleDateFromat  = new SimpleDateFormat("yyyy-MM-dd");
         String formattedDate = dateFormat.format(reservationDate);
         return "Reservation ID: " + reservationId + ", Room: " + room.getRoomNumber() + ", Customer: " + customer.getName() +
-                " (Email: " + customer.getEmail() + ", Phone: " + customer,getPhoneNumber() + "), Date: " + formattedDate;
+                " (Email: " + customer.getEmail() + ", Phone: " + customer.getPhoneNumber() + "), Date: " + formattedDate;
     }
 }
