@@ -35,7 +35,7 @@ public class Room {
     }
 
     @Override
-    public String toString {
+    public String toString() {
         return "Room Number: " + roomNumber + ", Type: " + type + ", Rate: " + rate + ", Avaliable" + isAvailable;
     }
 

@@ -25,7 +25,7 @@ public class Main {
                     hotel.bookRoom(scanner);
                     break;
                 case 2:
-                    hotel.cancelReservation();
+                    hotel.cancelReservation(scanner);
                     break;
                 case 3:
                     hotel.viewBookingHistory();
