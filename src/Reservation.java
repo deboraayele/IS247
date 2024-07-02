@@ -5,13 +5,17 @@ public class Reservation {
     private int reservationId;
     private Room room;
     private Customer customer;
-    private Date reservationDate;
+    private Date startDate;
+    private Date endDate;
+    private double totalRate;
 
-    public Reservation(int reservationId, Room room, Customer customer, Date reservationDate) {
+    public Reservation(int reservationId, Room room, Customer customer, Date startDate, Date endDate, double totalRate) {
         this.reservationId = reservationId;
         this.room = room;
         this.customer = customer;
-        this.reservationDate = reservationDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.totalRate = totalRate;
     }
 
     public Room getRoom() {
@@ -22,15 +26,25 @@ public class Reservation {
         return customer;
     }
 
-    public Date getReservationDate() {
-        return reservationDate;
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public double getTotalRate() {
+        return totalRate;
     }
 
     @Override
     public String toString() {
         SimpleDateFormat dateFormat  = new SimpleDateFormat("yyyy-MM-dd");
-        String formattedDate = dateFormat.format(reservationDate);
+        String formattedStartDate = dateFormat.format(startDate);
+        String formattedEndDate = dateFormat.format(endDate);
         return "Reservation ID: " + reservationId + ", Room: " + room.getRoomNumber() + ", Customer: " + customer.getName() +
-                " (Email: " + customer.getEmail() + ", Phone: " + customer.getPhoneNumber() + "), Date: " + formattedDate;
+                " (Email: " + customer.getEmail() + ", Phone: " + customer.getPhoneNumber() + "), Dates: " + formattedStartDate + " to " + formattedEndDate +
+                ", Total Rate: $" + getTotalRate();
     }
 }
