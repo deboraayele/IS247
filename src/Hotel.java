@@ -9,14 +9,14 @@ import java.text.ParseException;
 
 public class Hotel implements ReservationInterface {
     private String name;
-    private ArrayList<Room> rooms;
+    private RoomList<Room> rooms; // Requirement 19: Generics
     private Stack<Reservation> bookingHistory;
     private Map<Integer, Reservation> reservations;
     private static int reservationCounter = 0;
 
     public Hotel(String name) {
         this.name = name;
-        this.rooms = new ArrayList<>();
+        this.rooms = new RoomList<>();
         this.bookingHistory = new Stack<>();
         this.reservations = new HashMap<>();
         initializeRooms();
@@ -24,13 +24,17 @@ public class Hotel implements ReservationInterface {
 
     private void initializeRooms() {
         for (int i = 1; i <= 10; i++) {
-            rooms.add(new Room(i, "Single", 100.0));
-            rooms.add(new Room(i + 10, "Double", 150.0));
+            rooms.addRoom(new Room(i, "Single", 100.0));
+            rooms.addRoom(new Room(i + 10, "Double", 150.0));
         }
     }
 
     @Override
     public void bookRoom(Scanner scanner) {
+        bookRoom(scanner, null);
+    }
+
+    public void bookRoom(Scanner scanner, String specialRequest) {
         System.out.print("Enter customer name: ");
         String name = scanner.next();
 
@@ -62,7 +66,7 @@ public class Hotel implements ReservationInterface {
         while (room == null) {
             System.out.print("Enter room type (Single/Double): ");
             String roomType = scanner.next();
-            room = findAvailableRoom(roomType);
+            room = rooms.findAvailableRoom(roomType);
 
             if (room == null) {
                 System.out.println("No available rooms of type " + roomType + ". Please enter a valid room type.");
@@ -80,7 +84,6 @@ public class Hotel implements ReservationInterface {
                 startDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDateString);
                 Date currentDate = new Date();
 
-                // Allow the start date to be the current date or a future date
                 if (startDate.before(currentDate) && !isSameDay(startDate, currentDate)) {
                     System.out.println("Error. Enter a date for the future.");
                     startDate = null;
@@ -103,7 +106,7 @@ public class Hotel implements ReservationInterface {
                     long diffInMillies = Math.abs(endDate.getTime() - startDate.getTime());
                     long diffInDays = diffInMillies / (1000 * 60 * 60 * 24);
                     double totalRate = room.getRate() * (diffInDays + 1); // Include the start date
-                    System.out.println("The total rate for your stay from " + new SimpleDateFormat("yyyy-MM-dd").format(startDate) + " to " + new SimpleDateFormat("yyyy-MM-dd").format(endDate) + " is $" + totalRate);
+                    System.out.printf("The total rate for your stay from %s to %s is $%.2f%n", new SimpleDateFormat("yyyy-MM-dd").format(startDate), new SimpleDateFormat("yyyy-MM-dd").format(endDate), totalRate);
 
                     Reservation reservation = new Reservation(++reservationCounter, room, customer, startDate, endDate, totalRate);
                     reservations.put(reservationCounter, reservation);
@@ -117,15 +120,6 @@ public class Hotel implements ReservationInterface {
                 endDate = null;
             }
         }
-    }
-
-    private Room findAvailableRoom(String type) {
-        for (Room room : rooms) {
-            if (room.getType().equalsIgnoreCase(type) && room.isAvailable()) {
-                return room;
-            }
-        }
-        return null;
     }
 
     @Override
@@ -166,15 +160,7 @@ public class Hotel implements ReservationInterface {
     }
 
     private boolean isValidPhoneNumber(String phoneNumber) {
-        if (phoneNumber.length() != 10) {
-            return false;
-        }
-        for (char c : phoneNumber.toCharArray()) {
-            if (!Character.isDigit(c)) {
-                return false;
-            }
-        }
-        return true;
+        return phoneNumber.length() == 10 && phoneNumber.chars().allMatch(Character::isDigit);
     }
 
     private boolean isSameDay(Date date1, Date date2) {
