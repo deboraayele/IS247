@@ -33,35 +33,63 @@ public class Hotel implements ReservationInterface {
     public void bookRoom(Scanner scanner) {
         System.out.print("Enter customer name: ");
         String name = scanner.next();
-        System.out.print("Enter customer email: ");
-        String email = scanner.next();
-        System.out.print("Enter customer phone number: ");
-        String phoneNumber = scanner.next();
+
+        String email;
+        while (true) {
+            System.out.print("Enter customer email: ");
+            email = scanner.next();
+            if (email.contains("@") && email.endsWith(".com")) {
+                break;
+            } else {
+                System.out.println("Invalid email format. Please enter a valid email.");
+            }
+        }
+
+        String phoneNumber;
+        while (true) {
+            System.out.print("Enter customer phone number: ");
+            phoneNumber = scanner.next();
+            if (isValidPhoneNumber(phoneNumber)) {
+                break;
+            } else {
+                System.out.println("Invalid phone number. Please enter a valid 10-digit phone number.");
+            }
+        }
+
         Customer customer = new Customer(name, email, phoneNumber);
 
-        System.out.print("Enter room type (Single/Double): ");
-        String roomType = scanner.next();
-        Room room = findAvailableRoom(roomType);
+        Room room = null;
+        while (room == null) {
+            System.out.print("Enter room type (Single/Double): ");
+            String roomType = scanner.next();
+            room = findAvailableRoom(roomType);
 
-        if (room != null) {
+            if (room == null) {
+                System.out.println("No available rooms of type " + roomType + ". Please enter a valid room type.");
+            }
+        }
+
+        Date bookingDate = null;
+        while (bookingDate == null) {
             System.out.print("Enter booking date (yyyy-MM-dd): ");
             String dateString = scanner.next();
-            Date bookingDate = null;
             try {
                 bookingDate = new SimpleDateFormat("yyyy-MM-dd").parse(dateString);
+                if (bookingDate.before(new Date())) {
+                    System.out.println("Invalid date. Booking date cannot be in the past. Please enter a valid future date.");
+                    bookingDate = null;
+                }
             } catch (ParseException e) {
                 System.out.println("Invalid date format. Please use yyyy-MM-dd.");
-                return;
             }
-
-            Reservation reservation = new Reservation(++reservationCounter, room, customer, bookingDate);
-            reservations.put(reservationCounter, reservation);
-            bookingHistory.push(reservation);
-            room.setAvailable(false);
-            System.out.println("Room booked successfully for " + bookingDate + "!");
-        } else {
-            System.out.println("No available rooms of type " + roomType);
         }
+
+        Reservation reservation = new Reservation(++reservationCounter, room, customer, bookingDate);
+        reservations.put(reservationCounter, reservation);
+        bookingHistory.push(reservation);
+        room.setAvailable(false);
+        System.out.println("Room booked successfully for " + new SimpleDateFormat("yyyy-MM-dd").format(bookingDate) + "!");
+        System.out.println("Your reservation ID is: " + reservationCounter);
     }
 
     private Room findAvailableRoom(String type) {
@@ -75,17 +103,26 @@ public class Hotel implements ReservationInterface {
 
     @Override
     public void cancelReservation(Scanner scanner) {
-        System.out.print("Enter reservation ID to cancel: ");
-        int reservationId = scanner.nextInt();
+        int reservationId;
+        while (true) {
+            System.out.print("Enter reservation ID to cancel: ");
+            if (scanner.hasNextInt()) {
+                reservationId = scanner.nextInt();
+                if (reservations.containsKey(reservationId)) {
+                    break;
+                } else {
+                    System.out.println("Invalid reservation ID. Please provide a valid reservation ID.");
+                }
+            } else {
+                System.out.println("Invalid input. Please enter a valid reservation ID.");
+                scanner.next(); // Clear invalid input
+            }
+        }
 
         Reservation reservation = reservations.get(reservationId);
-        if (reservation != null) {
-            reservation.getRoom().setAvailable(true);
-            reservations.remove(reservationId);
-            System.out.println("Reservation cancelled successfully!");
-        } else {
-            System.out.println("Invalid reservation ID.");
-        }
+        reservation.getRoom().setAvailable(true);
+        reservations.remove(reservationId);
+        System.out.println("Reservation cancelled successfully!");
     }
 
     @Override
@@ -97,5 +134,17 @@ public class Hotel implements ReservationInterface {
         if (index < 0) return;
         System.out.println(bookingHistory.get(index));
         viewBookingHistoryRecursive(index - 1);
+    }
+
+    private boolean isValidPhoneNumber(String phoneNumber) {
+        if (phoneNumber.length() != 10) {
+            return false;
+        }
+        for (char c : phoneNumber.toCharArray()) {
+            if (!Character.isDigit(c)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
