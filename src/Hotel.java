@@ -9,7 +9,7 @@ import java.text.ParseException;
 
 public class Hotel implements ReservationInterface {
     private String name;
-    private RoomList<Room> rooms; // Requirement 19: Generics
+    private RoomList<Room> rooms; // Using generics for RoomList
     private Stack<Reservation> bookingHistory;
     private Map<Integer, Reservation> reservations;
     private static int reservationCounter = 0;
@@ -85,11 +85,13 @@ public class Hotel implements ReservationInterface {
                 Date currentDate = new Date();
 
                 if (startDate.before(currentDate) && !isSameDay(startDate, currentDate)) {
-                    System.out.println("Error. Enter a date for the future.");
-                    startDate = null;
+                    throw new InvalidReservationException("Error. Enter a date for the future.");
                 }
             } catch (ParseException e) {
                 System.out.println("Invalid date format. Please use yyyy-MM-dd.");
+                startDate = null;
+            } catch (InvalidReservationException e) {
+                System.out.println(e.getMessage());
                 startDate = null;
             }
         }
@@ -100,8 +102,7 @@ public class Hotel implements ReservationInterface {
             try {
                 endDate = new SimpleDateFormat("yyyy-MM-dd").parse(endDateString);
                 if (endDate.before(startDate)) {
-                    System.out.println("Error end date invalid. End date cannot be before start date. Try again.");
-                    endDate = null;
+                    throw new InvalidReservationException("Error end date invalid. End date cannot be before start date. Try again.");
                 } else {
                     long diffInMillies = Math.abs(endDate.getTime() - startDate.getTime());
                     long diffInDays = diffInMillies / (1000 * 60 * 60 * 24);
@@ -117,6 +118,9 @@ public class Hotel implements ReservationInterface {
                 }
             } catch (ParseException e) {
                 System.out.println("Invalid date format. Please use yyyy-MM-dd.");
+                endDate = null;
+            } catch (InvalidReservationException e) {
+                System.out.println(e.getMessage());
                 endDate = null;
             }
         }
