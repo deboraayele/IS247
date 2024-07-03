@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class RoomList<T> { // Requirement 19: Generics
+public class RoomList<T> {
     private List<T> rooms = new ArrayList<>();
 
     public void addRoom(T room) {

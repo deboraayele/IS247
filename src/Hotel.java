@@ -163,6 +163,12 @@ public class Hotel implements ReservationInterface {
         viewBookingHistoryRecursive(index - 1);
     }
 
+    public void printAllRooms() {
+        for (Room room : rooms.getRooms()) {
+            System.out.println(room);
+        }
+    }
+
     private boolean isValidPhoneNumber(String phoneNumber) {
         return phoneNumber.length() == 10 && phoneNumber.chars().allMatch(Character::isDigit);
     }
@@ -172,4 +178,3 @@ public class Hotel implements ReservationInterface {
         return fmt.format(date1).equals(fmt.format(date2));
     }
 }
-//done
