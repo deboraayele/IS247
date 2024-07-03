@@ -146,7 +146,7 @@ public class Hotel implements ReservationInterface { // Requirement 7: Interface
 
         Reservation reservation = reservations.get(reservationId);
         System.out.println("Cancelling reservation for " + reservation.getCustomer().getName() + " from " + new SimpleDateFormat("yyyy-MM-dd").format(reservation.getStartDate()) + " to " + new SimpleDateFormat("yyyy-MM-dd").format(reservation.getEndDate()));
-        reservation.getRoom().setAvailable(true);
+        reservation.getRoom().setAvailable(true); // Update room availability
         reservations.remove(reservationId);
         System.out.println("Reservation cancelled successfully!");
     }
@@ -166,6 +166,7 @@ public class Hotel implements ReservationInterface { // Requirement 7: Interface
     public void printAllRooms() {
         for (Room room : rooms.getRooms()) {
             System.out.println(room);
+            System.out.println("Availability: " + room.isAvailable()); // Explicitly using the isAvailable method
         }
     }
 
