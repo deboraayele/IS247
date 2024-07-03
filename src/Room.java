@@ -1,13 +1,13 @@
 public class Room {
-    private int roomNumber;
+    private int roomNumber; // Requirement 2: Variables
 
-    private String type;
+    private String type; // Requirement 2: Variables
 
-    private double rate;
+    private double rate; // Requirement 2: Variables
 
-    private boolean isAvailable;
+    private boolean isAvailable; // Requirement 2: Variables
 
-    public Room(int roomNumber, String type, double rate){
+    public Room(int roomNumber, String type, double rate){  // Requirement 16: Constructor
         this.roomNumber = roomNumber;
         this.type = type;
         this.rate = rate;
@@ -32,11 +32,11 @@ public class Room {
 
     public void setAvailable(boolean available){
         isAvailable = available;
-    }
+    }  // Requirement 23: this keyword
 
     @Override
     public String toString () {
-        return "Room Number: " + roomNumber + ", Type: " + type + ", Rate: " + rate + ", Avaliable";
+        return "Room Number: " + roomNumber + ", Type: " + type + ", Rate: " + rate + ", Avaliable" + isAvailable;
     }
 
 }

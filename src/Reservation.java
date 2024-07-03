@@ -1,15 +1,15 @@
-import java.util.Date;
-import java.text.SimpleDateFormat;
+import java.util.Date;  // Requirement 21: Java library class
+import java.text.SimpleDateFormat; // Requirement 21: Java library class
 
 public class Reservation {
-    private int reservationId;
-    private Room room;
-    private Customer customer;
-    private Date startDate;
-    private Date endDate;
-    private double totalRate;
+    private int reservationId;  // Requirement 2: Variables
+    private Room room; // Requirement 2: Variables
+    private Customer customer; // Requirement 2: Variables
+    private Date startDate; // Requirement 2: Variables
+    private Date endDate; // Requirement 2: Variables
+    private double totalRate; // Requirement 2: Variables
 
-    public Reservation(int reservationId, Room room, Customer customer, Date startDate, Date endDate, double totalRate) {
+    public Reservation(int reservationId, Room room, Customer customer, Date startDate, Date endDate, double totalRate) {  // Requirement 16: Constructor
         this.reservationId = reservationId;
         this.room = room;
         this.customer = customer;

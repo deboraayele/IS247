@@ -1,11 +1,11 @@
-public class Customer extends Person {
+public class Customer extends Person {  // Requirement 6: Inheritance
 
-    private String email;
+    private String email;  // Requirement 2: Variables
 
-    private String phoneNumber;
+    private String phoneNumber;  // Requirement 2: Variables
 
-    public Customer(String name, String email, String phoneNumber){
-        super(name);
+    public Customer(String name, String email, String phoneNumber){  // Requirement 16: Constructor
+        super(name);  // Requirement 17: Super Keyword
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
