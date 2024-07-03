@@ -1,20 +1,20 @@
-import java.util.ArrayList; // Requirement 13: ArrayList
-import java.util.HashMap; // Requirement 15: Map
-import java.util.Map; // Requirement 15: Map
-import java.util.Stack; // Requirement 14: Stacks
-import java.util.Scanner; // Requirement 1: Scanner
-import java.util.Date; // Requirement 21: Java Library class
-import java.text.SimpleDateFormat; // Requirement 21: Java Library class
-import java.text.ParseException; // Requirement 9: Exception
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Stack;
+import java.util.Scanner;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
 
-public class Hotel implements ReservationInterface { // Requirement 7: Interface
-    private String name; // Requirement 2: Variables
+public class Hotel implements ReservationInterface {
+    private String name;
     private RoomList<Room> rooms; // Using generics for RoomList
-    private Stack<Reservation> bookingHistory; // Requirement 14: Stacks
-    private Map<Integer, Reservation> reservations; // Requirement 15: Map
-    private static int reservationCounter = 0; // Requirement 22: Static variable
+    private Stack<Reservation> bookingHistory;
+    private Map<Integer, Reservation> reservations;
+    private static int reservationCounter = 0;
 
-    public Hotel(String name) { // Requirement 16: Constructor
+    public Hotel(String name) {
         this.name = name;
         this.rooms = new RoomList<>();
         this.bookingHistory = new Stack<>();
@@ -24,8 +24,8 @@ public class Hotel implements ReservationInterface { // Requirement 7: Interface
 
     private void initializeRooms() {
         for (int i = 1; i <= 10; i++) {
-            rooms.addRoom(new Room(i, "Single", 100.0));  // Requirement 24: Lists
-            rooms.addRoom(new Room(i + 10, "Double", 150.0));   // Requirement 24: Lists
+            rooms.addRoom(new Room(i, "Single", 100.0));
+            rooms.addRoom(new Room(i + 10, "Double", 150.0));
         }
     }
 
@@ -36,7 +36,7 @@ public class Hotel implements ReservationInterface { // Requirement 7: Interface
 
     public void bookRoom(Scanner scanner, String specialRequest) {
         System.out.print("Enter customer name: ");
-        String name = scanner.next(); // Requirement 2: Variables
+        String name = scanner.next();
 
         String email;
         while (true) {
@@ -60,7 +60,7 @@ public class Hotel implements ReservationInterface { // Requirement 7: Interface
             }
         }
 
-        Customer customer = new Customer(name, email, phoneNumber); // Requirement 6: Inheritance
+        Customer customer = new Customer(name, email, phoneNumber);
 
         Room room = null;
         while (room == null) {
@@ -81,8 +81,8 @@ public class Hotel implements ReservationInterface { // Requirement 7: Interface
             System.out.print("Enter booking start date (yyyy-MM-dd): ");
             String startDateString = scanner.next();
             try {
-                startDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDateString); // Requirement 21: Java library class
-                Date currentDate = new Date(); // Requirement 21: Java library class
+                startDate = new SimpleDateFormat("yyyy-MM-dd").parse(startDateString);
+                Date currentDate = new Date();
 
                 if (startDate.before(currentDate) && !isSameDay(startDate, currentDate)) {
                     throw new InvalidReservationException("Error. Enter a date for the future.");
@@ -159,14 +159,14 @@ public class Hotel implements ReservationInterface { // Requirement 7: Interface
     private void viewBookingHistoryRecursive(int index) {
         if (index < 0) return;
         Reservation reservation = bookingHistory.get(index);
-        System.out.println(reservation); // Requirement 25: println method
+        System.out.println(reservation);
         viewBookingHistoryRecursive(index - 1);
     }
 
     public void printAllRooms() {
         for (Room room : rooms.getRooms()) {
             System.out.println(room);
-            System.out.println("Availability: " + room.isAvailable()); // Explicitly using the isAvailable method
+            System.out.println("Availability: " + (room.isAvailable() ? "Available" : "Unavailable")); // Explicitly using the isAvailable method and clarifying the status
         }
     }
 
