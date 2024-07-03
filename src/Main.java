@@ -10,7 +10,8 @@ public class Main {
             System.out.println("1. Book Room");
             System.out.println("2. Cancel Reservation");
             System.out.println("3. View Booking History");
-            System.out.println("4. Exit");
+            System.out.println("4. View all rooms");
+            System.out.println("5. Exit");
             System.out.print("Choose an option: ");
 
             //Check if input is an integer
@@ -32,6 +33,9 @@ public class Main {
                     hotel.viewBookingHistory();
                     break;
                 case 4:
+                    hotel.printAllRooms();
+                    break;
+                case 5:
                     System.out.println("Thank you for using the Hotel Reservation System.");
                     scanner.close();
                     return;
