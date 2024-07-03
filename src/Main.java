@@ -1,9 +1,9 @@
-import java.util.Scanner;
+import java.util.Scanner;  // Requirement 1: Scanner Class
 
 public class Main {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(System.in); // Requirement 1: Scanner Class
         Hotel hotel = new Hotel ("247 Hotel");
 
         while (true){
@@ -21,8 +21,8 @@ public class Main {
                 System.out.print("Choose an option: ");
             }
 
-            int choice = scanner.nextInt();
-            switch (choice) {
+            int choice = scanner.nextInt(); // Requirement 2: Variables
+            switch (choice) {  // Requirement 3: Switch statement
                 case 1:
                     hotel.bookRoom(scanner);
                     break;
